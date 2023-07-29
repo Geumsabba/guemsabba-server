@@ -1,9 +1,9 @@
 package com.example.geumsabba.domain.member;
 
+import com.example.geumsabba.domain.BaseTimeEntity;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.management.relation.Role;
 import javax.persistence.*;
 
 @Table(name = "MEMBER")
@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @AllArgsConstructor
 @Builder
-public class Member {
+public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,8 +30,8 @@ public class Member {
     @Column(nullable = false, length = 30)
     private String nickName;//별명
 
-//    @Column(nullable = false, length = 30)
-//    private Integer age;//나이
+    @Column(nullable = false, length = 30)
+    private Integer age;//나이
 
     @Enumerated(EnumType.STRING)
     private Role role;//권한 -> USER, ADMIN
@@ -53,9 +53,9 @@ public class Member {
         this.nickName = nickName;
     }
 
-//    public void updateAge(int age){
-//        this.age = age;
-//    }
+    public void updateAge(int age){
+        this.age = age;
+    }
 
     //== 패스워드 암호화 ==//
     public void encodePassword(PasswordEncoder passwordEncoder){
