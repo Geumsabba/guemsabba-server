@@ -22,9 +22,9 @@ public class Member {
     private String local;
     @Column(unique = true)
     private String mail;
-    private String siDo;
-    private String siGunGu;
-    private String dong;
+    private String siDo; //시, 도
+    private String siGunGu; //시, 군, 구
+    private String dong; //동
 
     public Member(String id, String name, String password, String YY, String MM, String DD, String gender, String local, String mail, String siDo, String siGunGu, String dong) {
         this.id = id;
