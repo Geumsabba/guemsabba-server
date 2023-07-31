@@ -1,14 +1,15 @@
 package com.example.geumsabba.repository;
 
-import com.example.geumsabba.domain.member.Member;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.geumsabba.member.Member;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+@Repository
+public interface MemberRepository {
 
-    Optional<Member> findByUsername(String username);
-
-    boolean existsByUsername(String username);
-
+    Member save(Member member);
+    Optional<Member> findById(String id);
+    List<Member> findAll();
 }
