@@ -5,7 +5,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity //spring security 활성화
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
@@ -16,4 +16,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().csrf().ignoringAntMatchers("/h2-console/**")
                 .and().headers().frameOptions().sameOrigin(); // Enable H2 Console in an iframe
     }
+
+
+
 }

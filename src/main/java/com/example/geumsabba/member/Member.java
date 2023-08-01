@@ -20,6 +20,7 @@ public class Member {
     private String DD;
     private String gender;
     private String local;
+
     @Column(unique = true)
     private String mail;
     private String siDo; //시, 도
@@ -40,4 +41,5 @@ public class Member {
         this.siGunGu = siGunGu;
         this.dong = dong;
     }
+
 }
