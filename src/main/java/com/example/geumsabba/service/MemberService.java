@@ -2,38 +2,35 @@ package com.example.geumsabba.service;
 
 import com.example.geumsabba.member.Member;
 import com.example.geumsabba.repository.MemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-//@Transactional(readOnly = true)
 public class MemberService {
 
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
-    public String join(Member member){  //회원가입
-
-        //같은 이름이 있는 중복 회원 X
-        //validateDuplicateMember(member); //중복 회원 검증
-
-        memberRepository.save(member);
-        return member.getId();
-    }
-    private void validateDuplicateMember(Member member) {
-        memberRepository.findById(member.getId())
-                .ifPresent(m-> { // null이 아니라 값이 있으면
-                    throw new IllegalStateException("이미 존재하는 회원입니다.");
-                });
+    @Autowired
+    public MemberService(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
 
-    public List<Member> findMembers(){
-        return memberRepository.findAll();
+    public Member registerMember(String username, String email, String password) {
+        Member newMember = new Member(username, email, password);
+
+        return memberRepository.save(newMember);
     }
 
-    public Optional<Member> findOne(String memberId){
-        return memberRepository.findById(memberId);
+    // 로그인 시도 메서드
+    public Member login(String username, String password) {
+        Member member = memberRepository.findByUsername(username);
+        if (member != null && password.equals(member.getPassword())) {
+            return member;
+        }
+        return null;
     }
 
 }
