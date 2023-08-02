@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @RestController
 @RequestMapping("guemsabba")
 public class MemberController {
@@ -40,6 +43,19 @@ public class MemberController {
         } else {
             // 로그인 실패
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    //로그아웃
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            // 세션 무효화
+            session.invalidate();
+            return ResponseEntity.ok("Logged out successfully.");
+        } else {
+            return ResponseEntity.badRequest().body("Not logged in.");
         }
     }
 
