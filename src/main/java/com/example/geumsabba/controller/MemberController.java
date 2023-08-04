@@ -53,7 +53,6 @@ public class MemberController {
         HttpSession session = request.getSession(false);
         if (session != null) {
             // 세션 무효화
-            System.out.println("로그인시도");
             session.invalidate();
             return ResponseEntity.ok("Logged out successfully.");
         } else {
