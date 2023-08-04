@@ -1,11 +1,13 @@
 package com.example.geumsabba.member;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Getter
 @Entity
+@NoArgsConstructor
 public class Member {
 
     @Id

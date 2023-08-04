@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @RestController
-@RequestMapping("guemsabba")
+@RequestMapping("geumsabba")
 public class MemberController {
 
     private final MemberService memberService;
@@ -46,12 +46,14 @@ public class MemberController {
         }
     }
 
+
     //로그아웃
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
             // 세션 무효화
+            System.out.println("로그인시도");
             session.invalidate();
             return ResponseEntity.ok("Logged out successfully.");
         } else {
