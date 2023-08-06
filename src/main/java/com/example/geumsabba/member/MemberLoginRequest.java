@@ -8,11 +8,11 @@ import lombok.Setter;
 @Setter
 public class MemberLoginRequest {
 
-    private String username;
-    private String password;
+    private String userid;
+    private String userpassword;
 
-    public MemberLoginRequest(String username, String password) {
-        this.username = username;
-        this.password = password;
+    public MemberLoginRequest(String userid, String userpassword) {
+        this.userid = userid;
+        this.userpassword = userpassword;
     }
 }
