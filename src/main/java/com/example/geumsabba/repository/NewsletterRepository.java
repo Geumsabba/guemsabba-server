@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface NewsletterRepository extends JpaRepository<Newsletter, Long> {
 
+    Page <Newsletter> findByTitleContaining(String searchKeyword, Pageable pageable);
 }
