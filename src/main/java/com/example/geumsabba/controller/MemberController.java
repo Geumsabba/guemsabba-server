@@ -1,13 +1,11 @@
 package com.example.geumsabba.controller;
 
-import com.example.geumsabba.member.Member;
-import com.example.geumsabba.member.MemberLoginRequest;
-import com.example.geumsabba.member.MemberRegistrationRequest;
-import com.example.geumsabba.member.SessionConstants;
-import com.example.geumsabba.repository.MemberRepository;
+import com.example.geumsabba.entity.Member;
+import com.example.geumsabba.entity.MemberLoginRequest;
+import com.example.geumsabba.entity.MemberRegistrationRequest;
+import com.example.geumsabba.entity.SessionConstants;
 import com.example.geumsabba.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

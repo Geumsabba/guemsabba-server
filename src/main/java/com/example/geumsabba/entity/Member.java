@@ -1,4 +1,4 @@
-package com.example.geumsabba.member;
+package com.example.geumsabba.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
