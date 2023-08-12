@@ -1,6 +1,6 @@
 package com.example.geumsabba.repository;
 
-import com.example.geumsabba.newsletter.Newsletter;
+import com.example.geumsabba.entity.Newsletter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

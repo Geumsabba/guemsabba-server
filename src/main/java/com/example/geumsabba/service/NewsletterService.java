@@ -1,6 +1,6 @@
 package com.example.geumsabba.service;
 
-import com.example.geumsabba.newsletter.Newsletter;
+import com.example.geumsabba.entity.Newsletter;
 import com.example.geumsabba.repository.NewsletterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

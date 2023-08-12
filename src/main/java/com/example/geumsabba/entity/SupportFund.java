@@ -1,4 +1,4 @@
-package com.example.geumsabba.newsletter;
+package com.example.geumsabba.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,13 +11,14 @@ import javax.persistence.Id;
 @Getter
 @Entity
 @NoArgsConstructor
-public class Newsletter {
+public class SupportFund {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
-    private String content;
-    private String type;
+    private String region;
+    private String age;
+    private String deadline;
 }

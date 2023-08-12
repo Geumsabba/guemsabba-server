@@ -1,6 +1,6 @@
 package com.example.geumsabba;
 
-import com.example.geumsabba.newsletter.Newsletter;
+import com.example.geumsabba.entity.Newsletter;
 import com.example.geumsabba.repository.NewsletterRepository;
 import com.example.geumsabba.service.NewsletterService;
 import org.junit.jupiter.api.BeforeEach;
