@@ -1,20 +1,14 @@
 package com.example.geumsabba.entity;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
 import java.util.Date;
 
 @Getter
-@Entity
-@NoArgsConstructor
-public class Newsletter {
+@Setter
+public class NewsletterResponse {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Temporal(TemporalType.DATE)
     private Date date;
     private String editor;
     private String title;
@@ -25,11 +19,11 @@ public class Newsletter {
     private String content1;
     private String content2;
     private String content3;
-    private String image1;
-    private String image2;
-    private String image3;
+    private byte[] image1;
+    private byte[] image2;
+    private byte[] image3;
 
-    public Newsletter(Date date, String editor, String title, String header, String subtitle1, String subtitle2, String subtitle3, String content1, String content2, String content3, String image1, String image2, String image3) {
+    public NewsletterResponse(Date date, String editor, String title, String header, String subtitle1, String subtitle2, String subtitle3, String content1, String content2, String content3) {
         this.date = date;
         this.editor = editor;
         this.title = title;
@@ -40,8 +34,5 @@ public class Newsletter {
         this.content1 = content1;
         this.content2 = content2;
         this.content3 = content3;
-        this.image1 = image1;
-        this.image2 = image2;
-        this.image3 = image3;
     }
 }
