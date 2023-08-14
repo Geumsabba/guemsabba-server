@@ -2,6 +2,7 @@ package com.example.geumsabba.controller;
 
 
 import com.example.geumsabba.entity.Newsletter;
+import com.example.geumsabba.entity.NewsletterResponse;
 import com.example.geumsabba.service.NewsletterService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("geumsabba")
 public class NewsletterController {
@@ -27,13 +34,6 @@ public class NewsletterController {
         this.newsletterService = newsletterService;
     }
 
-    @GetMapping("/newsletter/get")  //특정 뉴스레터 불러오기
-    public String newsletterGet(Model model, Long id){
-
-        model.addAttribute("newsletter", newsletterService.newsletterGet(id));
-
-        return "newsletterget";
-    }
 
     @GetMapping("/newsletter/create") //뉴스레터 생성
     public  String newsletterCreate(Newsletter newsletter){
@@ -44,15 +44,15 @@ public class NewsletterController {
     }
 
     @GetMapping("/newsletter/delete")
-    public String boardDelete(Long id){
+    public String newsletterDelete(Long id){
 
         newsletterService.newsletterDelete(id);
 
         return "redirect:/geumsabba";
     }
 
-    @GetMapping("/newsletter/list")   //searchKeyword를 포함하고 있는 뉴스레터 찾기
-    public String boardList(Model model,
+    @GetMapping("/newsletter/keyword")   //searchKeyword를 포함하고 있는 뉴스레터 찾기
+    public String newsletterList(Model model,
                             @PageableDefault(page = 0, size = 6, sort = "id", direction = Sort.Direction.DESC ) Pageable pageable,
                             String searchKeyword){
 
@@ -76,19 +76,45 @@ public class NewsletterController {
         return "newsletterlist";
     }
 
-    @GetMapping("/newsletter/{id}/{imageName}")  // 뉴스레터 사진 불러오기
-    public ResponseEntity<Resource> getImage(@PathVariable String id, @PathVariable String imageName) {
-        try {
-            // 디렉토리에서 이미지 불러오기
-            Resource resource = new ClassPathResource("static/images/newsletter"+ id+"/" + imageName);
+    ///////////////////////////////////////
+    @GetMapping("/newsletter/getall")  // 뉴스레터 전부 불러오기
+    public ResponseEntity<List<NewsletterResponse>> newsletterGetAll() {
+        List<Newsletter> newsletters = newsletterService.getAllNewsletters();
 
-            // ResponseEntity 타입으로 이미지 전달
-            return ResponseEntity.ok()
-                    .contentType(MediaType.IMAGE_PNG) // or MediaType.IMAGE_PNG, depending on your images
-                    .body(resource);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+        List<NewsletterResponse> responseList = newsletters.stream()
+                .map(newsletter -> {
+                    NewsletterResponse response = new NewsletterResponse(
+                            newsletter.getDate(), newsletter.getEditor(), newsletter.getTitle(),
+                            newsletter.getHeader(), newsletter.getSubtitle1(), newsletter.getSubtitle2(),
+                            newsletter.getSubtitle3(), newsletter.getContent1(), newsletter.getContent2(),
+                            newsletter.getContent3());
+
+                    try {
+                        byte[] image1Bytes = Files.readAllBytes(Path.of(newsletter.getImage1()));
+                        byte[] image2Bytes = Files.readAllBytes(Path.of(newsletter.getImage2()));
+                        byte[] image3Bytes = Files.readAllBytes(Path.of(newsletter.getImage3()));
+
+                        response.setImage1(image1Bytes);
+                        response.setImage2(image2Bytes);
+                        response.setImage3(image3Bytes);
+                    } catch (IOException e) {
+                        // Handle the exception
+                    }
+
+                    return response;
+                })
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(responseList);
+    }
+
+
+    @GetMapping("/newsletter/getone")  //id로 특정 뉴스레터 불러오기
+    public String newsletterGet(Model model, Long id){
+
+        model.addAttribute("newsletter", newsletterService.newsletterGet(id));
+
+        return "newsletterget";
     }
 
 }

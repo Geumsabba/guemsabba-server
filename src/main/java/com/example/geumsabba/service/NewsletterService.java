@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class NewsletterService {
 
@@ -27,9 +29,9 @@ public class NewsletterService {
     }
     public Newsletter newsletterGet(Long id){  //특정 뉴스레터 불러오기
 
-        return newsletterRepository.findById(id).get();
+        return newsletterRepository.findById(id).orElse(null);
     }
-    public Page<Newsletter> newsletterList(Pageable pageable){ //뉴스레터 리스트 처리
+    public Page<Newsletter> newsletterList(Pageable pageable){ //뉴스레터 페이지 처리
 
         return newsletterRepository.findAll(pageable);
     }
@@ -37,4 +39,9 @@ public class NewsletterService {
 
         return newsletterRepository.findByTitleContaining(searchKeyword, pageable);
     }
+
+    public List<Newsletter> getAllNewsletters() {
+        return newsletterRepository.findAll();
+    }
+
 }
