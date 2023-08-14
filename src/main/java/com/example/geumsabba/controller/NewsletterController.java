@@ -76,7 +76,6 @@ public class NewsletterController {
         return "newsletterlist";
     }
 
-
     ///////////////////////////////////////
     @GetMapping("/newsletter/getall")  // 뉴스레터 전부 불러오기
     public ResponseEntity<List<NewsletterResponse>> newsletterGetAll() {
@@ -91,10 +90,9 @@ public class NewsletterController {
                             newsletter.getContent3());
 
                     try {
-                        String imagePath = "static/images/newsletter" + newsletter.getId() + "/";
-                        byte[] image1Bytes = Files.readAllBytes(Path.of(imagePath + newsletter.getImage1()));
-                        byte[] image2Bytes = Files.readAllBytes(Path.of(imagePath + newsletter.getImage2()));
-                        byte[] image3Bytes = Files.readAllBytes(Path.of(imagePath + newsletter.getImage3()));
+                        byte[] image1Bytes = Files.readAllBytes(Path.of(newsletter.getImage1()));
+                        byte[] image2Bytes = Files.readAllBytes(Path.of(newsletter.getImage2()));
+                        byte[] image3Bytes = Files.readAllBytes(Path.of(newsletter.getImage3()));
 
                         response.setImage1(image1Bytes);
                         response.setImage2(image2Bytes);
