@@ -13,7 +13,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .anyRequest().permitAll() // Allow access to all URLs without authentication
-                .antMatchers("/", "/h2-console/**", "/events", "/events/*").permitAll()
                 .and()
                 .csrf().disable() // Disable CSRF protection
                 .headers().frameOptions().disable(); // Disable X-Frame-Options header, necessary for H2 Console
