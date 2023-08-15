@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -90,9 +91,17 @@ public class NewsletterController {
                             newsletter.getContent3());
 
                     try {
-                        byte[] image1Bytes = Files.readAllBytes(Path.of(newsletter.getImage1()));
-                        byte[] image2Bytes = Files.readAllBytes(Path.of(newsletter.getImage2()));
-                        byte[] image3Bytes = Files.readAllBytes(Path.of(newsletter.getImage3()));
+                        Resource resource1 = new ClassPathResource(newsletter.getImage1());
+                        Resource resource2 = new ClassPathResource(newsletter.getImage2());
+                        Resource resource3 = new ClassPathResource(newsletter.getImage3());
+
+                        InputStream inputStream1 = resource1.getInputStream();
+                        InputStream inputStream2 = resource2.getInputStream();
+                        InputStream inputStream3 = resource3.getInputStream();
+
+                        byte[] image1Bytes = inputStream1.readAllBytes();
+                        byte[] image2Bytes = inputStream2.readAllBytes();
+                        byte[] image3Bytes = inputStream3.readAllBytes();
 
                         response.setImage1(image1Bytes);
                         response.setImage2(image2Bytes);

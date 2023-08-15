@@ -4,12 +4,15 @@ import com.example.geumsabba.entity.Supportfund;
 import com.example.geumsabba.entity.SupportfundResponse;
 import com.example.geumsabba.service.SupportfundService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -21,6 +24,10 @@ public class SupportfundController {
 
     @Autowired
     private SupportfundService supportfundService;
+
+    public SupportfundController(SupportfundService supportfundService) {
+        this.supportfundService = supportfundService;
+    }
 
     @GetMapping("/supportfund/getall")  // 지원금 전부 불러오기
     public ResponseEntity<List<SupportfundResponse>> newsletterGetAll() {
@@ -34,7 +41,9 @@ public class SupportfundController {
                             supportfund.getHashtag2(), supportfund.getHashtag3(), supportfund.getLink());
 
                     try {
-                        byte[] imageBytes = Files.readAllBytes(Path.of(supportfund.getImage()));
+                        Resource resource = new ClassPathResource(supportfund.getImage());
+                        InputStream inputStream = resource.getInputStream();
+                        byte[] imageBytes = inputStream.readAllBytes();
 
                         response.setImage(imageBytes);
                     } catch (IOException e) {
