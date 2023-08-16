@@ -9,14 +9,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,6 +33,7 @@ public class NewsletterController {
     }
 
 
+    @CrossOrigin(origins = {"http://localhost:3000", "https://geumsabba.store/"})
     @GetMapping("/newsletter/create") //뉴스레터 생성
     public  String newsletterCreate(Newsletter newsletter){
 
@@ -44,6 +42,7 @@ public class NewsletterController {
         return "redirect:/geumsabba";
     }
 
+    @CrossOrigin(origins = {"http://localhost:3000", "https://geumsabba.store/"})
     @GetMapping("/newsletter/delete")
     public String newsletterDelete(Long id){
 
@@ -52,6 +51,7 @@ public class NewsletterController {
         return "redirect:/geumsabba";
     }
 
+    @CrossOrigin(origins = {"http://localhost:3000", "https://geumsabba.store/"})
     @GetMapping("/newsletter/keyword")   //searchKeyword를 포함하고 있는 뉴스레터 찾기
     public String newsletterList(Model model,
                             @PageableDefault(page = 0, size = 6, sort = "id", direction = Sort.Direction.DESC ) Pageable pageable,
@@ -78,6 +78,7 @@ public class NewsletterController {
     }
 
     ///////////////////////////////////////
+    @CrossOrigin(origins = {"http://localhost:3000", "https://geumsabba.store/"})
     @GetMapping("/newsletter/getall")  // 뉴스레터 전부 불러오기
     public ResponseEntity<List<NewsletterResponse>> newsletterGetAll() {
         List<Newsletter> newsletters = newsletterService.getAllNewsletters();
@@ -118,6 +119,7 @@ public class NewsletterController {
     }
 
 
+    @CrossOrigin(origins = {"http://localhost:3000", "https://geumsabba.store/"})
     @GetMapping("/newsletter/getone")  //id로 특정 뉴스레터 불러오기
     public String newsletterGet(Model model, Long id){
 

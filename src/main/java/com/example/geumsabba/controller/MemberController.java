@@ -24,6 +24,7 @@ public class MemberController {
         this.memberService = memberService;
     }
 
+    @CrossOrigin(origins = {"http://localhost:3000", "https://geumsabba.store/"})
     @PostMapping("/signup")
     public Member registerMember(@RequestBody MemberRegistrationRequest request) {
         return memberService.registerMember(request.getUsername(), request.getUserid(),
@@ -49,6 +50,7 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }*/
+    @CrossOrigin(origins = {"http://localhost:3000", "https://geumsabba.store/"})
     @PostMapping("/login")
     public String login(@RequestBody MemberLoginRequest request, HttpServletRequest request2, Model model) {
         String userid = request.getUserid();
@@ -83,6 +85,7 @@ public class MemberController {
             return ResponseEntity.badRequest().body("Not logged in.");
         }
     }*/
+    @CrossOrigin(origins = {"http://localhost:3000", "https://geumsabba.store/"})
     @PostMapping("/logout")
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
