@@ -17,6 +17,9 @@ public class SupportfundService {
     }
 
     public List<Supportfund> getAllSupportfund() {
+
         return supportfundRepository.findAll();
     }
+
+
 }

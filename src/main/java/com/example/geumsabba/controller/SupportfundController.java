@@ -15,6 +15,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,9 +40,37 @@ public class SupportfundController {
 
         List<SupportfundResponse> responseList = supportfunds.stream()
                 .map(supportfund -> {
+
+                    String Dday = " ";
+                    String deadlineStr = supportfund.getDeadline();
+
+                    //상시 신청인 경우 D-365로 표시
+                    if(deadlineStr.equals("상시")){
+                        Dday = "D-365";
+                    }else{
+                        try{
+                            //문자열을 날짜로 변환
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");//.withResolverStyle(ResolverStyle.STRICT);
+                            LocalDate deadlineDate = LocalDate.parse(deadlineStr, formatter);
+
+                            //D-day 계산
+                            LocalDate currentDate = LocalDate.now();
+                            long daysUntilDday = ChronoUnit.DAYS.between(currentDate, deadlineDate);
+
+                            //다시 문자열로 변환
+                            String num = String.valueOf(daysUntilDday);
+                            if(daysUntilDday<0){
+                                Dday = "마감";
+                            }else{
+                                Dday = "D-"+num;
+                            }
+                        }catch (DateTimeParseException e) {
+                        }
+
+                    }
                     SupportfundResponse response = new SupportfundResponse(
                             supportfund.getTitle(), supportfund.getRegion(), supportfund.getAge(),
-                            supportfund.getIncome(),supportfund.getDeadline(), supportfund.getHashtag1(),
+                            supportfund.getIncome(),Dday, supportfund.getHashtag1(),
                             supportfund.getHashtag2(), supportfund.getHashtag3(), supportfund.getLink());
 
                     try {
