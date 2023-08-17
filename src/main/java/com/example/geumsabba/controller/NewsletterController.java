@@ -103,11 +103,35 @@ public class NewsletterController {
 
     @CrossOrigin(origins = {"http://localhost:3000", "https://geumsabba.store/"})
     @GetMapping("/newsletter/getone/{id}")
-    public ResponseEntity<Newsletter> getNewsletterById(@PathVariable Long id) {
+    public ResponseEntity<NewsletterResponse> getNewsletterById(@PathVariable Long id) {
         Newsletter newsletter = newsletterService.newsletterGet(id);
 
+        NewsletterResponse response = new NewsletterResponse(newsletter.getDate(), newsletter.getEditor(), newsletter.getTitle(),
+                newsletter.getHeader(), newsletter.getSubtitle1(), newsletter.getSubtitle2(),
+                newsletter.getSubtitle3(), newsletter.getContent1(), newsletter.getContent2(),
+                newsletter.getContent3());
+        try {
+            Resource resource1 = new ClassPathResource(newsletter.getImage1());
+            Resource resource2 = new ClassPathResource(newsletter.getImage2());
+            Resource resource3 = new ClassPathResource(newsletter.getImage3());
+
+            InputStream inputStream1 = resource1.getInputStream();
+            InputStream inputStream2 = resource2.getInputStream();
+            InputStream inputStream3 = resource3.getInputStream();
+
+            byte[] image1Bytes = inputStream1.readAllBytes();
+            byte[] image2Bytes = inputStream2.readAllBytes();
+            byte[] image3Bytes = inputStream3.readAllBytes();
+
+            response.setImage1(image1Bytes);
+            response.setImage2(image2Bytes);
+            response.setImage3(image3Bytes);
+        } catch (IOException e) {
+            // Handle the exception
+        }
+
         if (newsletter != null) {
-            return new ResponseEntity<>(newsletter, HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
