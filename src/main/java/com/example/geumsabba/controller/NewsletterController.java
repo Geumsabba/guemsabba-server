@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.core.io.ClassPathResource;
@@ -120,12 +121,15 @@ public class NewsletterController {
 
 
     @CrossOrigin(origins = {"http://localhost:3000", "https://geumsabba.store/"})
-    @GetMapping("/newsletter/getone")  //id로 특정 뉴스레터 불러오기
-    public String newsletterGet(Model model, Long id){
+    @GetMapping("/newsletter/getone/{id}")
+    public ResponseEntity<Newsletter> getNewsletterById(@PathVariable Long id) {
+        Newsletter newsletter = newsletterService.newsletterGet(id);
 
-        model.addAttribute("newsletter", newsletterService.newsletterGet(id));
-
-        return "newsletterget";
+        if (newsletter != null) {
+            return new ResponseEntity<>(newsletter, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 }
