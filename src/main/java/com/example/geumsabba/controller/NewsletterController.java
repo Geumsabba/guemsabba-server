@@ -33,49 +33,30 @@ public class NewsletterController {
         this.newsletterService = newsletterService;
     }
 
-
     @CrossOrigin(origins = {"http://localhost:3000", "https://geumsabba.store/"})
-    @GetMapping("/newsletter/create") //뉴스레터 생성
-    public  String newsletterCreate(Newsletter newsletter){
-
+    @PostMapping("/newsletter/create")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createNewsletter(@RequestBody Newsletter newsletter) {
         newsletterService.newsletterCreate(newsletter);
-
-        return "redirect:/geumsabba";
     }
 
     @CrossOrigin(origins = {"http://localhost:3000", "https://geumsabba.store/"})
-    @GetMapping("/newsletter/delete")
-    public String newsletterDelete(Long id){
-
+    @DeleteMapping("/newsletter/delete/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteNewsletter(@PathVariable Long id) {
         newsletterService.newsletterDelete(id);
-
-        return "redirect:/geumsabba";
     }
 
     @CrossOrigin(origins = {"http://localhost:3000", "https://geumsabba.store/"})
-    @GetMapping("/newsletter/keyword")   //searchKeyword를 포함하고 있는 뉴스레터 찾기
-    public String newsletterList(Model model,
-                            @PageableDefault(page = 0, size = 6, sort = "id", direction = Sort.Direction.DESC ) Pageable pageable,
-                            String searchKeyword){
+    @GetMapping("/newsletter/search")  //특정 keyword로 검색하기
+    public ResponseEntity<List<Newsletter>> searchNewslettersByKeyword(@RequestParam String keyword) {
+        List<Newsletter> newsletters = newsletterService.searchByKeyword(keyword);
 
-        Page<Newsletter> list = null;
-
-        if(searchKeyword == null){
-            list = newsletterService.newsletterList(pageable);
-        }else{
-            list = newsletterService.newsletterSearchList(searchKeyword, pageable);
+        if (!newsletters.isEmpty()) {
+            return new ResponseEntity<>(newsletters, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        int nowPage = list.getPageable().getPageNumber() + 1;
-        int startPage = Math.max(nowPage - 4, 1);
-        int endPage = Math.min(nowPage + 5, list.getTotalPages());
-
-        model.addAttribute("list",list);
-        model.addAttribute("nowPage",nowPage);
-        model.addAttribute("startPage",startPage);
-        model.addAttribute("endPage",endPage);
-
-        return "newsletterlist";
     }
 
     ///////////////////////////////////////
@@ -132,4 +113,20 @@ public class NewsletterController {
         }
     }
 
+
+    /*@GetMapping("/newsletter/create") //뉴스레터 생성
+    public  String newsletterCreate(Newsletter newsletter){
+
+        newsletterService.newsletterCreate(newsletter);
+
+        return "redirect:/geumsabba";
+    }
+
+    @GetMapping("/newsletter/delete")
+    public String newsletterDelete(Long id){
+
+        newsletterService.newsletterDelete(id);
+
+        return "redirect:/geumsabba";
+    }*/
 }
