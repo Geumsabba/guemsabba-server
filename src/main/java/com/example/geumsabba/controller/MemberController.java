@@ -78,7 +78,8 @@ public class MemberController {
 
 
     //로그아웃
-   /* @PostMapping("/logout")
+    @CrossOrigin(origins = {"http://localhost:3000", "https://geumsabba.store/"})
+    @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
@@ -88,9 +89,9 @@ public class MemberController {
         } else {
             return ResponseEntity.badRequest().body("Not logged in.");
         }
-    }*/
-    @CrossOrigin(origins = {"http://localhost:3000", "https://geumsabba.store/"})
-    @PostMapping("/logout")
+    }
+
+    /*@PostMapping("/logout")
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
@@ -101,7 +102,7 @@ public class MemberController {
             ResponseEntity.badRequest().body("Not logged in.");
         }
         return "redirect:/geumsabba";
-    }
+    }*/
 
 
 }
